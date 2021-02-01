@@ -1,61 +1,88 @@
 import constants from "../../constants";
 
 export class Calculation {
-    static do(set) {
-        console.log('set', set);
-        if (!(set.n1.type === constants.numberTypes.ORIGIN && set.n2.type === constants.numberTypes.ORIGIN)) {
-            throw Error(`Expecting origin numbers. Got ${set.n1.type} and ${set.n2.type}`)
-        }
-        switch (set.op) {
-            case constants.operatorTypes.ADD:
-                this.add(set);
-                break;
-            case constants.operatorTypes.SUB:
-                this.sub(set);
-                break;
-            case constants.operatorTypes.MUL:
-                this.mul(set);
-                break;
-            case constants.operatorTypes.DIV:
-                this.div(set);
-                break;
-            default:
-                throw Error(`Expect ${constants.operatorTypes.ADD}, ${constants.operatorTypes.SUB}, ${constants.operatorTypes.MUL} or ${constants.operatorTypes.DIV}. Given ${set.op}`)
-        }
+  static do(set) {
+    console.log("set info", set);
+    if (
+      set.n1.type === constants.numberTypes.INITIAL &&
+      set.n2.type === constants.numberTypes.INITIAL
+    ) {
+      throw Error(
+        `Expecting origin or result numbers. Got ${set.n1.type} and ${set.n2.type}`
+      );
     }
-    static add({ n1, n2, op }) {
-        if (op !== constants.operatorTypes.ADD) {
-            throw Error(`Wrong operator. Expecting ${constants.operatorTypes.ADD}, given ${op}`)
-        }
-
-        return n1.number + n2.number;
+    switch (set.operator) {
+      case constants.operatorTypes.ADD:
+        return this.add(set);
+      case constants.operatorTypes.SUB:
+        return this.sub(set);
+      case constants.operatorTypes.MUL:
+        return this.mul(set);
+      case constants.operatorTypes.DIV:
+        return this.div(set);
+      case constants.operatorTypes.DIVREV:
+        return this.divrev(set);
+      default:
+        throw Error(
+          `Expect ${constants.operatorTypes.ADD}, ${constants.operatorTypes.SUB}, ${constants.operatorTypes.MUL} or ${constants.operatorTypes.DIV}. Given ${set.op}`
+        );
     }
-
-    static sub({ n1, n2, op }) {
-        if (op !== constants.operatorTypes.SUB) {
-            throw Error(`Wrong operator. Expecting ${constants.operatorTypes.SUB}, given ${op}`)
-        }
-
-        return n1.number - n2.number;
+  }
+  static add({ n1, n2, operator }) {
+    if (operator !== constants.operatorTypes.ADD) {
+      throw Error(
+        `Wrong operator. Expecting ${constants.operatorTypes.ADD}, given ${operator}`
+      );
     }
 
-    static mul({ n1, n2, op }) {
-        if (op !== constants.operatorTypes.MUL) {
-            throw Error(`Wrong operator. Expecting ${constants.operatorTypes.MUL}, given ${op}`)
-        }
+    return n1.number + n2.number;
+  }
 
-        return n1.number * n2.number;
+  static sub({ n1, n2, operator }) {
+    if (operator !== constants.operatorTypes.SUB) {
+      throw Error(
+        `Wrong operator. Expecting ${constants.operatorTypes.SUB}, given ${operator}`
+      );
     }
 
-    static div({ n1, n2, op }) {
-        if (op !== constants.operatorTypes.DIV) {
-            throw Error(`Wrong operator. Expecting ${constants.operatorTypes.MUL}, given ${op}`)
-        }
+    return n1.number - n2.number;
+  }
 
-        if (n2.number === 0) {
-            throw Error(`Denominator can not be 0`);
-        }
-
-        return n1.number / n2.number;
+  static mul({ n1, n2, operator }) {
+    if (operator !== constants.operatorTypes.MUL) {
+      throw Error(
+        `Wrong operator. Expecting ${constants.operatorTypes.MUL}, given ${operator}`
+      );
     }
+    console.log("mul", n1, n2, n1.number * n2.number);
+    return n1.number * n2.number;
+  }
+
+  static div({ n1, n2, operator }) {
+    if (operator !== constants.operatorTypes.DIV) {
+      throw Error(
+        `Wrong operator. Expecting ${constants.operatorTypes.MUL}, given ${operator}`
+      );
+    }
+
+    if (n2.number === 0) {
+      throw Error(`Denominator can not be 0`);
+    }
+
+    return n1.number / n2.number;
+  }
+
+  static divrev({ n1, n2, operator }) {
+    if (operator !== constants.operatorTypes.DIV) {
+      throw Error(
+        `Wrong operator. Expecting ${constants.operatorTypes.MUL}, given ${operator}`
+      );
+    }
+
+    if (n1.number === 0) {
+      throw Error(`Denominator can not be 0`);
+    }
+
+    return  n2.number / n1.number;
+  }
 }

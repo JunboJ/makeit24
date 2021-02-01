@@ -8,7 +8,8 @@ const constants = {
         ADD: '+',
         SUB: '-',
         MUL: '*',
-        DIV: '/'
+        DIV: '/',
+        DIVREV: 'r/'
     },
     colorPalette: {
         rnBlue1: '#8ecae6',

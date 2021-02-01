@@ -6,6 +6,7 @@ export class ResultNumber extends Number {
     resultNumber;
     constructor(n1, n2, operator) {
         console.log('operator', operator);
+        super();
         this.resultNumber = {
             type: constants.numberTypes.RESULT,
             originNumber1: n1,
