@@ -11,9 +11,11 @@ import { ResultNumber } from './components/core/resultNumber/ResultNumber';
 export default function App() {
   const list = new NumberList();
   const [numberList, setNumberList] = useState(list.numberList);
-  
+  const [isInitStatus, setIsInitStatus] = useState(true);
+
   const generateHandler = () => {
     const newList = list.listGenerator();
+    setIsInitStatus(false);
     setNumberList(newList);
   };
 
@@ -22,15 +24,21 @@ export default function App() {
     console.log('test', test);
   }
 
-  useEffect(() => {
-    Core.getSolutions(numberList);
-  }, [numberList])
+  const getSolutionsHandler = () => {
+    const resolutions = Core.getSolutions(numberList);
+    console.log('resolutions', resolutions);
+  }
+
+  // useEffect(() => {
+  // Core.getSolutions(numberList);
+  // }, [numberList])
 
   return (
     <View style={styles.container}>
       <CardContainer numbers={numberList} />
-      <Button title='Generate' onPress={generateHandler} />
-      <Button title='calculation test' onPress={calculateHandler} />
+      <Button title='Generate' onPress={generateHandler}/>
+      <Button title='calculation test' onPress={calculateHandler} disabled={isInitStatus} />
+      <Button title='get solutions test' onPress={getSolutionsHandler} disabled={isInitStatus} />
     </View>
   );
 }
