@@ -8,8 +8,10 @@ const CardContainer = ({ numbers }) => {
         <View style={styles.cardWrapper}>
             {
                 numbers.map((val, index) => {
+                    const type = val.type;
+                    const number = val.number;
                     return !!val
-                        ? <Card key={`${val.type}-${index}`} type={val.type} number={val.number} />
+                        ? <Card key={`${type}-${index}`} type={type}>{number}</Card>
                         : <Card key={`init-${index}`} type={constants.numberTypes.INITIAL} />
                 })
             }

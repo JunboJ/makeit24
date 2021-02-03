@@ -2,17 +2,14 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import constants from '../constants';
 
-const Card = ({ number, type }) => {
+const Card = ({ type, children }) => {
     let content;
     switch (type) {
         case constants.numberTypes.INITIAL:
             content = '?';
             break;
         case constants.numberTypes.ORIGIN:
-            content = number;
-            break;
-        case constants.numberTypes.RESULT:
-            content = number;
+            content = children;
             break;
         default:
             content = 'Er'
@@ -27,7 +24,7 @@ const Card = ({ number, type }) => {
 
 const styles = StyleSheet.create({
     cardWrapper: {
-        height: 40,
+        height: 55,
         width: 40,
         borderWidth: 1,
         borderColor: constants.colorPalette.rnBlue1,

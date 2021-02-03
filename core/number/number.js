@@ -1,3 +1,5 @@
+import constants from "../../components/constants";
+
 export class Number {
     get number() {
         return this._number;
@@ -9,5 +11,13 @@ export class Number {
             throw Error(`The value of number must has a type of number! Given ${valType}.`);
         }
         this._number = val;
+    }
+
+    get type() {
+        return this._type;
+    }
+
+    set type(type) {
+        this._type = type;
     }
 }

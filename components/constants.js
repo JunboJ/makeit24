@@ -2,11 +2,13 @@ const constants = {
     numberTypes: {
         ORIGIN: 'origin',
         RESULT: 'result',
-        INITIAL: 'initial'
+        INITIAL: 'initial',
+        FINAL: 'final'
     },
     operatorTypes: {
         ADD: '+',
         SUB: '-',
+        SUBREV: 'r-',
         MUL: '*',
         DIV: '/',
         DIVREV: 'r/'

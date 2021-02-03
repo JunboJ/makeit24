@@ -1,14 +1,16 @@
-import constants from "../../constants";
+import constants from "../../components/constants";
 import { ResultNumber } from "../resultNumber/ResultNumber";
 
 export class Calculation {
     static do(set) {
+        const n1Type = set.n1.type;
+        const n2Type = set.n2.type;
         if (
-            set.n1.type === constants.numberTypes.INITIAL &&
-            set.n2.type === constants.numberTypes.INITIAL
+            n1Type === constants.numberTypes.INITIAL &&
+            n2Type === constants.numberTypes.INITIAL
         ) {
             throw Error(
-                `Expecting origin or result numbers. Got ${set.n1.type} and ${set.n2.type}`
+                `Expecting origin or result numbers. Got ${n1Type} and ${n2Type}`
             );
         }
         switch (set.operator) {
@@ -16,6 +18,8 @@ export class Calculation {
                 return this.add(set);
             case constants.operatorTypes.SUB:
                 return this.sub(set);
+            case constants.operatorTypes.SUBREV:
+                return this.subrev(set);
             case constants.operatorTypes.MUL:
                 return this.mul(set);
             case constants.operatorTypes.DIV:
@@ -50,6 +54,17 @@ export class Calculation {
         return resultNumber;
     }
 
+    static subrev({n1, n2, operator}) {
+        if (operator !== constants.operatorTypes.SUBREV) {
+            throw Error(
+                `Wrong operator. Expecting ${constants.operatorTypes.SUBREV}, given ${operator}`
+            );
+        }
+        const result =  n2.number - n1.number;
+        const resultNumber = new ResultNumber(n1, n2, operator, result)
+        return resultNumber;
+    }
+
     static mul({ n1, n2, operator }) {
         if (operator !== constants.operatorTypes.MUL) {
             throw Error(
@@ -69,7 +84,8 @@ export class Calculation {
         }
 
         if (n2.number === 0) {
-            throw Error(`Denominator can not be 0`);
+            return;
+            // throw Error(`Denominator can not be 0`);
         }
 
         const hasRemainder = n1.number % n2.number === 0;
@@ -79,29 +95,31 @@ export class Calculation {
             const resultNumber = new ResultNumber(n1, n2, operator, result)
             return resultNumber;
         }
-
+        return;
         throw Error(`Calculation with operator ${operator} will end up remainder`);
     }
 
     static divrev({ n1, n2, operator }) {
-        if (operator !== constants.operatorTypes.DIV) {
+        if (operator !== constants.operatorTypes.DIVREV) {
             throw Error(
-                `Wrong operator. Expecting ${constants.operatorTypes.MUL}, given ${operator}`
+                `Wrong operator. Expecting ${constants.operatorTypes.DIVREV}, given ${operator}`
             );
         }
 
         if (n1.number === 0) {
-            throw Error(`Denominator can not be 0`);
+            return;
+            // throw Error(`Denominator can not be 0`);
         }
 
-        const hasRemainder = n2.number % n1.number === 0;
+        const hasNoRemainder = n2.number % n1.number === 0;
 
-        if (!hasRemainder) {
+        if (hasNoRemainder) {
             const result = n2.number / n1.number;
-            const resultNumber = new ResultNumber(n2, n1, operator, result)
+            const resultNumber = new ResultNumber(n1, n2, operator, result)
             return resultNumber;
         }
 
-        throw Error(`Calculation with operator ${operator} will end up remainder`);
+        return;
+        // throw Error(`Calculation with operator ${operator} will end up remainder`);
     }
 }

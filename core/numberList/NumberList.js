@@ -1,33 +1,28 @@
-import constants from "../../constants";
+import constants from "../../components/constants";
 import { OriginNumber } from "../originNumber/OriginNumber";
 
 export class NumberList {
     min = 1;
     max = 14;
-    numberList;
+    numberList = [];
 
     constructor(list = []) {
         if (!!list.length) {
             this.numberList = list;
-            return;
         }
-        this.numberList = this.listGenerator(constants.numberTypes.INITIAL);
     }
 
     listGenerator(type = constants.numberTypes.ORIGIN) {
-        const newNumberList = [];
+        this.numberList = [];
         for (let i = 0; i < 4; i++) {
             if (type === constants.numberTypes.ORIGIN) {
                 const randomNumber = Math.floor(Math.random() * (this.max - this.min) + this.min);
-                const originNumber = new OriginNumber(randomNumber);
-                newNumberList.push(originNumber.getNumber());
+                this.numberList.push(new OriginNumber(randomNumber));
             }
             if (type === constants.numberTypes.INITIAL) {
-                const initialNumber = new OriginNumber();
-                newNumberList.push(initialNumber.getNumber());
+                this.numberList.push(new OriginNumber());
             }
         }
-        console.log('initial numbers', newNumberList);
-        return newNumberList;
+        return this.numberList;
     }
 }
