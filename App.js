@@ -7,6 +7,7 @@ import { Calculation } from './core/calculation/Calculation';
 import { Core } from './core/Core';
 import { NumberList } from './core/numberList/NumberList';
 import { OriginNumber } from './core/originNumber/OriginNumber';
+import MainNavigator from './navigation/mainNavigator';
 
 const initialList = new NumberList();
 
@@ -45,17 +46,18 @@ export default function App() {
     });
   }
 
-  return (
-    <View style={styles.container}>
-      <CardContainer numbers={numberList} />
-      <Button title='Calculation Test' onPress={calculationTest} />
-      <Button title='Generate' onPress={generateHandler} />
-      <Button title='get solutions test' onPress={getSolutionsHandler} disabled={isInitStatus} />
-      <ScrollView style={styles.scrollView}>
-        {cards}
-      </ScrollView>
-    </View>
-  );
+  // return (
+  //   <View style={styles.container}>
+  //     <CardContainer numbers={numberList} />
+  //     <Button title='Calculation Test' onPress={calculationTest} />
+  //     <Button title='Generate' onPress={generateHandler} />
+  //     <Button title='get solutions test' onPress={getSolutionsHandler} disabled={isInitStatus} />
+  //     <ScrollView style={styles.scrollView}>
+  //       {cards}
+  //     </ScrollView>
+  //   </View>
+  // );
+  return <MainNavigator />;
 }
 
 const styles = StyleSheet.create({

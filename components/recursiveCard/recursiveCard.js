@@ -5,12 +5,17 @@ import constants from '../constants';
 
 const RecursiveCard = ({ numberObject }) => {
     const recursiveOperandRender = ({ operands, operator }) => {
+        const showReverse = false;
         let content = [];
+        if (!showReverse && operator.charAt(0) === 'r') {
+            operands = operands.reverse();
+            operator = operator.slice(-1);
+        }
         operands.forEach((operand, index) => {
             const operandType = operand.type;
             if (operandType === constants.numberTypes.RESULT) {
                 content.push(
-                    <Text style={styles.textWrapper}>
+                    <Text style={styles.textWrapper} key={`originNumber-${Math.random(3) * 1000}`}>
                         {index === 1
                             ? <Text>{operator}</Text>
                             : null}
@@ -21,7 +26,7 @@ const RecursiveCard = ({ numberObject }) => {
                 )
             }
             if (operandType === constants.numberTypes.ORIGIN) {
-                content.push(<Text style={styles.textWrapper}>{`${index === 1 ? operator : ''}${operand.number}`}</Text>)
+                content.push(<Text style={styles.textWrapper} key={`originNumber-${Math.random(3) * 1000}`}>{`${index === 1 ? operator : ''}${operand.number}`}</Text>)
             }
         });
         return content;
@@ -39,7 +44,7 @@ const RecursiveCard = ({ numberObject }) => {
         }
         if (itemType === constants.numberTypes.RESULT) {
             return (
-                <Card type={itemType}>
+                <Card type={itemType} key={`resultNumber-${Math.random()}`}>
                     {recursiveOperandRender(expression)}
                 </Card>
             )
@@ -62,7 +67,7 @@ const styles = StyleSheet.create({
         minHeight: 110,
         minWidth: 80,
         borderWidth: 1,
-        borderColor: constants.colorPalette.rnBlue1,
+        borderColor: constants.colorPalette.rnSet1.red,
         borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
@@ -72,8 +77,8 @@ const styles = StyleSheet.create({
         borderColor: 'blue'
     },
     textWrapper: {
-        borderWidth: 1,
-        borderColor: 'black'
+        // borderWidth: 1,
+        // borderColor: 'black'
     }
 });
 
