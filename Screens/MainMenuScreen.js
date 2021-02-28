@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Button } from 'react-native';
+import ButtonCustom from '../components/buttonCustom/ButtonCustom';
 import CardContainer from '../components/cardContainer/CardContainer';
 import RecursiveCard from '../components/recursiveCard/recursiveCard';
 import constants from '../constants/constants';
@@ -15,7 +16,6 @@ const MainMenuScreen = ({ navigation }) => {
     const [numberList, setNumberList] = useState(list.listGenerator(constants.numberTypes.INITIAL));
     const [isInitStatus, setIsInitStatus] = useState(true);
     const [resolutions, setResolutions] = useState([]);
-
     const startGameHandler = () => {
         navigation.navigate({ routeName: 'Game', params: { numberList } });
     };
@@ -51,19 +51,19 @@ const MainMenuScreen = ({ navigation }) => {
     return (
         <View style={styles.mainMenu}>
             <CardContainer items={numberList} />
-            <Button title='Calculation Test' onPress={calculationTest} />
-            <Button title='Generate' onPress={generateHandler} />
-            <Button title='get solutions test' onPress={getSolutionsHandler} disabled={isInitStatus} />
             {/* <ScrollView style={styles.scrollView}>
                 {cards}
             </ScrollView> */}
-            <Button title='Start Game' onPress={startGameHandler} />
+            <View style={styles.controlSet}>
+                <ButtonCustom title="START" onPressHandler={startGameHandler} dimension={{ heightY: 60, heightZ: 7 }} />
+                <ButtonCustom title="Generate" onPressHandler={generateHandler} />
+            </View>
+            <View style={styles.answerStyle}>
+                <ButtonCustom title="ANS" onPressHandler={getSolutionsHandler} dimension={{ heightY: 45, heightZ: 5 }} fontSize={16} />
+            </View>
         </View>
     )
 };
-
-MainMenuScreen.navigationOptions = navigationData => {
-}
 
 const styles = StyleSheet.create({
     mainMenu: {
@@ -88,6 +88,17 @@ const styles = StyleSheet.create({
     recursiveCard: {
         width: '100%',
         flexDirection: 'row'
+    },
+    answerStyle: {
+        position: 'absolute',
+        right: 50,
+        bottom: 50
+    },
+    controlSet: {
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-evenly',
+        marginTop: 30
     }
 });
 

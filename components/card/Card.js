@@ -4,7 +4,6 @@ import constants from '../../constants/constants';
 import CardText from '../cardText/CardText';
 
 const Card = ({ type, children, style }) => {
-    console.log('style', style);
     let content;
     switch (type) {
         case constants.numberTypes.INITIAL:
