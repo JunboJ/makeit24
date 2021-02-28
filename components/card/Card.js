@@ -1,9 +1,10 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import constants from '../../constants/constants';
 import CardText from '../cardText/CardText';
 
-const Card = ({ type, children }) => {
+const Card = ({ type, children, style }) => {
+    console.log('style', style);
     let content;
     switch (type) {
         case constants.numberTypes.INITIAL:
@@ -12,6 +13,7 @@ const Card = ({ type, children }) => {
         case constants.numberTypes.ORIGIN:
         case constants.numberTypes.RESULT:
         case constants.numberTypes.FINAL:
+        case 'operator':
             content = children;
             break;
         default:
@@ -19,7 +21,7 @@ const Card = ({ type, children }) => {
     }
 
     return (
-        <View style={styles.cardWrapper}>
+        <View style={{...styles.cardWrapper, ...style}}>
             <CardText>{content}</CardText>
         </View>
     )
@@ -27,11 +29,15 @@ const Card = ({ type, children }) => {
 
 const styles = StyleSheet.create({
     cardWrapper: {
-        height: 75,
-        width: 'auto',
-        minWidth: 55,
-        shadowColor: 'black',
-        shadowOffset: { width: 60, height: 80 },
+        width: '100%',
+        height: '100%',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
         backgroundColor: constants.colorPalette.rnSet3.white,
         borderWidth: 3,
         borderColor: constants.colorPalette.rnBlue1,
@@ -40,7 +46,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 5,
         paddingHorizontal: 14,
-        margin: 5,
     }
 });
 

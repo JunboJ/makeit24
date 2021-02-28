@@ -4,14 +4,14 @@ import Card from '../card/Card';
 import constants from '../../constants/constants';
 import RecursiveCard from '../recursiveCard/recursiveCard';
 
-const CardContainer = ({ numbers }) => {
+const CardContainer = ({ items }) => {
     return (
         <View style={styles.cardWrapper}>
             {
-                numbers.map((val, index) => {
+                items.map((val, index) => {
                     const type = val.type;
                     return !!val
-                        ? <RecursiveCard key={`${type}-${index}`} numberObject={val} />
+                        ? <RecursiveCard key={`${type}-${index}`} object={val} />
                         : <Card key={`init-${index}`} type={constants.numberTypes.INITIAL} />
                 })
             }

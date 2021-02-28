@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import Card from '../card/Card';
 import constants from '../../constants/constants';
-import { render } from 'react-dom';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const RecursiveCard = ({ numberObject }) => {
+const RecursiveCard = ({ object, onPressHandler }) => {
     const recursiveOperandRender = ({ operands, operator }) => {
         const showReverse = false;
         let content = [];
@@ -13,32 +13,13 @@ const RecursiveCard = ({ numberObject }) => {
             operator = operator.slice(-1);
         }
 
-        let renderOperator;
-        switch (operator) {
-            case constants.operatorTypes.DIV:
-            case constants.operatorTypes.DIVREV:
-                renderOperator = '\u00F7'
-                break;
-            case constants.operatorTypes.MUL:
-                renderOperator = '\u00D7'
-                break;
-            case constants.operatorTypes.SUB:
-            case constants.operatorTypes.SUBREV:
-                renderOperator = '\u2212'
-                break;
-            case constants.operatorTypes.ADD:
-                renderOperator = '\u002B'
-                break;
-
-            default:
-                break;
-        }
+        let renderOperator = operatorRender(operator);
 
         operands.forEach((operand, index) => {
             const operandType = operand.type;
             if (operandType === constants.numberTypes.RESULT) {
                 content.push(
-                    <Text style={styles.textWrapper} key={`originNumber-${Math.random(3) * 1000}`}>
+                    <Text key={`originNumber-${Math.random(3) * 1000}`}>
                         {index === 1
                             ? <Text>{renderOperator}</Text>
                             : null}
@@ -49,10 +30,25 @@ const RecursiveCard = ({ numberObject }) => {
                 )
             }
             if (operandType === constants.numberTypes.ORIGIN) {
-                content.push(<Text style={styles.textWrapper} key={`originNumber-${Math.random(3) * 1000}`}>{`${index === 1 ? renderOperator : ''}${operand.number}`}</Text>)
+                content.push(<Text key={`originNumber-${Math.random(3) * 1000}`}>{`${index === 1 ? renderOperator : ''}${operand.number}`}</Text>)
             }
         });
         return content;
+    }
+
+    const operatorRender = operator => {
+        switch (operator) {
+            case constants.operatorTypes.DIV:
+            case constants.operatorTypes.DIVREV:
+                return '\u00F7'
+            case constants.operatorTypes.MUL:
+                return '\u00D7'
+            case constants.operatorTypes.SUB:
+            case constants.operatorTypes.SUBREV:
+                return '\u2212'
+            case constants.operatorTypes.ADD:
+                return '\u002B'
+        }
     }
 
     const recursiveRender = (item) => {
@@ -60,6 +56,12 @@ const RecursiveCard = ({ numberObject }) => {
         if (itemType === constants.numberTypes.ORIGIN) {
             return (
                 <Card type={itemType}>{item.number}</Card>
+            )
+        }
+
+        if (Object.values(constants.operatorTypes).includes(itemType)) {
+            return (
+                <Card type={'operator'} style={styles.operatorCard}>{operatorRender(itemType)}</Card>
             )
         }
 
@@ -81,26 +83,20 @@ const RecursiveCard = ({ numberObject }) => {
     };
 
     return (
-        <View>{recursiveRender(numberObject)}</View>
+        <TouchableOpacity style={styles.recursiveCard} onPress={onPressHandler}>{recursiveRender(object)}</TouchableOpacity>
     )
-}
+};
 
 const styles = StyleSheet.create({
-    resultCard: {
-        flexDirection: 'row',
+    recursiveCard: {
+        height: 75,
         width: 'auto',
-        minHeight: 110,
-        minWidth: 80,
-        borderWidth: 1,
-        borderColor: constants.colorPalette.rnSet1.red,
-        borderRadius: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 10,
-        margin: 10,
-        borderWidth: 1,
-        borderColor: 'blue'
+        minWidth: 55,
+        margin: 5
+    },
+    operatorCard: {
+        borderColor: constants.colorPalette.rnSet3.red
     }
-});
+})
 
 export default RecursiveCard;

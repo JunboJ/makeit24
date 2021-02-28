@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Button, ScrollView } from 'react-native';
+import { View, StyleSheet, Button } from 'react-native';
 import CardContainer from '../components/cardContainer/CardContainer';
 import RecursiveCard from '../components/recursiveCard/recursiveCard';
 import constants from '../constants/constants';
@@ -17,7 +17,7 @@ const MainMenuScreen = ({ navigation }) => {
     const [resolutions, setResolutions] = useState([]);
 
     const startGameHandler = () => {
-        navigation.navigate('Game');
+        navigation.navigate({ routeName: 'Game', params: { numberList } });
     };
 
     const generateHandler = () => {
@@ -44,13 +44,13 @@ const MainMenuScreen = ({ navigation }) => {
 
     if (resolutions.length) {
         cards = resolutions.map((resolution, index) => {
-            return (<RecursiveCard style={styles.recursiveCard} key={`resolution-${index}`} numberObject={resolution} />)
+            return (<RecursiveCard style={styles.recursiveCard} key={`resolution-${index}`} object={resolution} />)
         });
     }
 
     return (
         <View style={styles.mainMenu}>
-            <CardContainer numbers={numberList} />
+            <CardContainer items={numberList} />
             <Button title='Calculation Test' onPress={calculationTest} />
             <Button title='Generate' onPress={generateHandler} />
             <Button title='get solutions test' onPress={getSolutionsHandler} disabled={isInitStatus} />
