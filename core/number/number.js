@@ -1,5 +1,3 @@
-import constants from "../../components/constants";
-
 export class Number {
     get number() {
         return this._number;

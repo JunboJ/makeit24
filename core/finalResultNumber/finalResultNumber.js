@@ -1,4 +1,4 @@
-import constants from "../../components/constants";
+import constants from "../../constants/constants";
 import { ResultNumber } from "../resultNumber/ResultNumber";
 
 export class FinalResultNumber extends ResultNumber {

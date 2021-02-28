@@ -1,4 +1,4 @@
-import constants from "../../components/constants";
+import constants from "../../constants/constants";
 import { OriginNumber } from "../originNumber/OriginNumber";
 
 export class NumberList {

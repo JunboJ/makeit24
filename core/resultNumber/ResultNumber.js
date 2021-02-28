@@ -1,4 +1,5 @@
-import constants from "../../components/constants";
+import constants from "../../constants/constants";
+import { Calculation } from "../calculation/Calculation";
 import { Number } from "../number/number";
 
 export class ResultNumber extends Number {
@@ -8,8 +9,8 @@ export class ResultNumber extends Number {
 
     constructor(n1, n2, operator, result) {
         super();
+        this.number = result ? result : Calculation.do({n1 ,n2, operator})
         this.type = constants.numberTypes.RESULT;
-        this.number = result;
         this.operand1 = n1;
         this.operand2 = n2;
         this.operator = operator;

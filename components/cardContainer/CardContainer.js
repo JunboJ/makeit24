@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Card from '../card/Card';
-import constants from '../constants';
+import constants from '../../constants/constants';
+import RecursiveCard from '../recursiveCard/recursiveCard';
 
 const CardContainer = ({ numbers }) => {
     return (
@@ -9,9 +10,8 @@ const CardContainer = ({ numbers }) => {
             {
                 numbers.map((val, index) => {
                     const type = val.type;
-                    const number = val.number;
                     return !!val
-                        ? <Card key={`${type}-${index}`} type={type}>{number}</Card>
+                        ? <RecursiveCard key={`${type}-${index}`} numberObject={val} />
                         : <Card key={`init-${index}`} type={constants.numberTypes.INITIAL} />
                 })
             }

@@ -8,26 +8,15 @@ import MainMenuScreen from '../Screens/MainMenuScreen';
 
 const MainNavigator = createStackNavigator(
     {
-        MainMenu: MainMenuScreen,
+        'Main Menu': MainMenuScreen,
         Game: GameScreen,
         HintList: HintListScreen
     },
     {  
-        headerMode: 'screen',
+        headerMode: 'float',
         defaultNavigationOptions: {
-            header: () => {
-                return (
-                    <View style={{
-                        height: 80,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginTop: 30
-                    }}>
-                        <Text>Here is the customized header</Text>
-                    </View>
-                )
-            }
-        },
+            headerTransparent: true
+        }
     }
 );
 

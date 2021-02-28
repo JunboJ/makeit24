@@ -1,5 +1,4 @@
-import constants from "../../components/constants";
-import { ResultNumber } from "../resultNumber/ResultNumber";
+import constants from "../../constants/constants";
 
 export class Calculation {
     static do(set) {
@@ -39,8 +38,7 @@ export class Calculation {
             );
         }
         const result = n1.number + n2.number;
-        const resultNumber = new ResultNumber(n1, n2, operator, result)
-        return resultNumber;
+        return result;
     }
 
     static sub({ n1, n2, operator }) {
@@ -50,8 +48,7 @@ export class Calculation {
             );
         }
         const result = n1.number - n2.number;
-        const resultNumber = new ResultNumber(n1, n2, operator, result)
-        return resultNumber;
+        return result;
     }
 
     static subrev({n1, n2, operator}) {
@@ -61,8 +58,7 @@ export class Calculation {
             );
         }
         const result =  n2.number - n1.number;
-        const resultNumber = new ResultNumber(n1, n2, operator, result)
-        return resultNumber;
+        return result;
     }
 
     static mul({ n1, n2, operator }) {
@@ -72,8 +68,7 @@ export class Calculation {
             );
         }
         const result = n1.number * n2.number;
-        const resultNumber = new ResultNumber(n1, n2, operator, result)
-        return resultNumber;
+        return result;
     }
 
     static div({ n1, n2, operator }) {
@@ -92,8 +87,7 @@ export class Calculation {
 
         if (hasRemainder) {
             const result = n1.number / n2.number;
-            const resultNumber = new ResultNumber(n1, n2, operator, result)
-            return resultNumber;
+            return result;
         }
         return;
         throw Error(`Calculation with operator ${operator} will end up remainder`);
@@ -115,8 +109,7 @@ export class Calculation {
 
         if (hasNoRemainder) {
             const result = n2.number / n1.number;
-            const resultNumber = new ResultNumber(n1, n2, operator, result)
-            return resultNumber;
+            return result;
         }
 
         return;
