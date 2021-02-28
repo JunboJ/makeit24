@@ -7,10 +7,8 @@ const ResultCard = ({ numberObject }) => {
 
     const rescursiveRender = (item) => {
         const itemType = item.type;
-        console.log('itemType', itemType);
         if (itemType === constants.numberTypes.RESULT) {
             const expObject = item.getExpression();
-            console.log('expObject', expObject['operands']);
             for (const operand of expObject['operands']) {
                 const operandType = operand.type;
                 if (operandType === constants.numberTypes.RESULT) {
