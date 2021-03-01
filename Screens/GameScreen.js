@@ -5,6 +5,8 @@ import constants from "../constants/constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ButtonCustom from "../components/buttonCustom/ButtonCustom";
 import { ResultNumber } from "../core/resultNumber/ResultNumber";
+import { Calculation } from "../core/calculation/Calculation";
+import { FontAwesome } from "@expo/vector-icons";
 
 const operators = [{ type: "+" }, { type: "-" }, { type: "*" }, { type: "/" }];
 
@@ -12,7 +14,7 @@ const GameScreen = ({ navigation }) => {
   const [list, setList] = useState(navigation.getParam("numberList"));
   const [operands, setOperands] = useState({ a: null, b: null });
   const [operator, setOperator] = useState({ type: null });
-
+  const [inputStack, setInputStack] = useState([list]);
   const numberOnPressHandler = (numObject) => {
     if (operands.a === numObject) {
       return setOperands({
@@ -47,14 +49,28 @@ const GameScreen = ({ navigation }) => {
   };
 
   const operatorOnPressHandler = (operatorObj) => {
-      console.log('###', operatorObj);
-    if (operator.type) {
-      return setOperator({type: null});
+    if (operatorObj === operator) {
+      return setOperator({ type: null });
     }
     return setOperator(operatorObj);
   };
 
-  const reset = () => {
+  const lastStepHandler = () => {
+    if (inputStack.length > 0) {
+      const copyStack = [...inputStack];
+      const lastStep = copyStack.pop();
+      const newStack = copyStack.slice(0, inputStack.length - 1);
+      setInputStack([...newStack]);
+      setList([...lastStep]);
+    }
+  };
+
+  const resetGameHandler = () => {
+    const initialStep = inputStack[0];
+    setList(initialStep);
+  };
+
+  const resetActive = () => {
     setOperands({ a: null, b: null });
     setOperator({ type: null });
   };
@@ -64,9 +80,20 @@ const GameScreen = ({ navigation }) => {
       const rest = list.filter((val) => {
         return val !== operands.a && val !== operands.b;
       });
+      const result = Calculation.do({
+        n1: operands.a,
+        n2: operands.b,
+        operator: operator.type,
+      });
+      if (!result) {
+        return resetActive();
+      }
       const newNumber = new ResultNumber(operands.a, operands.b, operator.type);
+      if (rest.length > 0) {
+          setInputStack([...inputStack, [newNumber, ...rest]]);
+      }
       setList([newNumber, ...rest]);
-      reset();
+      resetActive();
     }
   }, [operands, operator]);
 
@@ -76,12 +103,27 @@ const GameScreen = ({ navigation }) => {
         items={list}
         onPressHandler={numberOnPressHandler}
         activeItem={operands}
+        name="operands"
       />
       <CardContainer
         onPressHandler={operatorOnPressHandler}
         items={operators}
         activeItem={operator}
+        name="operator"
       />
+      <View>
+        <ButtonCustom
+          colorTheme="blue"
+          size="small"
+          onPressHandler={lastStepHandler}
+        >
+          <FontAwesome
+            name="backward"
+            size={18}
+            color={constants.colorPalette.rnSet3.white}
+          />
+        </ButtonCustom>
+      </View>
     </View>
   );
 };
@@ -93,13 +135,13 @@ GameScreen.navigationOptions = (options) => {
       return (
         <ButtonCustom
           colorTheme="red"
-          dimension={{ heightY: 45, heightZ: 5 }}
+          size='small'
           style={styles.headerLeftButton}
           onPressHandler={onPress}
         >
           <MaterialCommunityIcons
             name="home"
-            size={24}
+            size={20}
             color={constants.colorPalette.rnSet3.white}
           />
         </ButtonCustom>

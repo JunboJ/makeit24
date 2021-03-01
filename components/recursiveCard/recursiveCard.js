@@ -5,7 +5,6 @@ import constants from "../../constants/constants";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const RecursiveCard = ({ object, onPressHandler, active }) => {
-    console.log('active', active);
   const recursiveOperandRender = ({ operands, operator }) => {
     const showReverse = false;
     let content = [];
