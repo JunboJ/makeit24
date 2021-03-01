@@ -39,6 +39,8 @@ const constants = {
             lightBlue: '#4ecdc4',
             white: '#f7fff7',
             red: '#ff6b6b',
+            lightRed: '#FBB5B1',
+            darkYellow: '#FFA96C',
             yellow: '#ffe66d',
         }
     },

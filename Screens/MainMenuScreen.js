@@ -34,12 +34,6 @@ const MainMenuScreen = ({ navigation }) => {
         setResolutions(newSolutions);
     }
 
-    const calculationTest = () => {
-        const n1 = new OriginNumber(4);
-        const n2 = new OriginNumber(6);
-        const res = Calculation.do({ n1, n2, operator: constants.operatorTypes.DIVREV })
-    }
-
     let cards = null;
 
     if (resolutions.length) {
@@ -59,7 +53,13 @@ const MainMenuScreen = ({ navigation }) => {
                 <ButtonCustom title="Generate" onPressHandler={generateHandler} />
             </View>
             <View style={styles.answerStyle}>
-                <ButtonCustom title="ANS" onPressHandler={getSolutionsHandler} dimension={{ heightY: 45, heightZ: 5 }} fontSize={16} />
+                <ButtonCustom
+                    title="ANS"
+                    onPressHandler={getSolutionsHandler}
+                    dimension={{ heightY: 45, heightZ: 5 }}
+                    fontSize={16}
+                    colorTheme='yellow'
+                />
             </View>
         </View>
     )

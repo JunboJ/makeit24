@@ -83,7 +83,7 @@ const RecursiveCard = ({ object, onPressHandler }) => {
     };
 
     return (
-        <TouchableOpacity style={styles.recursiveCard} onPress={onPressHandler}>{recursiveRender(object)}</TouchableOpacity>
+        <TouchableOpacity style={styles.recursiveCard} onPress={() => onPressHandler(object)}>{recursiveRender(object)}</TouchableOpacity>
     )
 };
 

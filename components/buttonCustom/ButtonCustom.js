@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 import constants from '../../constants/constants';
 
-const ButtonCustom = ({ children, title, onPressHandler, dimension = { heightY: 60, heightZ: 7 }, fontSize = 20 }) => {
+const ButtonCustom = ({ children, title, onPressHandler, dimension = { heightY: 60, heightZ: 7 }, fontSize = 20, colorTheme = 'blue', style }) => {
     const [isPress, setIsPress] = useState(false);
 
     const { heightY, heightZ } = dimension;
@@ -14,6 +14,25 @@ const ButtonCustom = ({ children, title, onPressHandler, dimension = { heightY: 
 
     const wrapperIsPressed = { paddingTop: heightZ, height: outterHeight };
 
+    let mainColor = styles.buttonBlue;
+    let shadowColor = styles.buttonBlueShadow;
+    let underlayTheme = constants.colorPalette.rnSet3.lightBlue;
+    switch (colorTheme) {
+        case 'yellow':
+            mainColor = styles.buttonYellow;
+            shadowColor = styles.buttonYellowShadow;
+            underlayTheme = constants.colorPalette.rnSet3.yellow;
+            break;
+        case 'red':
+            mainColor = styles.buttonRed;
+            shadowColor = styles.buttonRedShadow
+            underlayTheme = constants.colorPalette.rnSet3.lightRed;
+            break;
+        default:
+            mainColor = styles.buttonBlue;
+            shadowColor = styles.buttonBlueShadow;
+            underlayTheme = constants.colorPalette.rnSet3.lightBlue;
+    }
 
     const touchableProps = {
         activeOpacity: 1,
@@ -22,16 +41,19 @@ const ButtonCustom = ({ children, title, onPressHandler, dimension = { heightY: 
         style: isPress
             ? {
                 ...styles.buttonStyle,
+                ...mainColor,
                 height: innerHeight
             }
             : {
                 ...styles.buttonStyle,
+                ...mainColor,
                 ...styles.buttonNormal,
+                ...shadowColor,
                 height: heightY,
                 shadowOffset: { width: 0, height: heightZ }
             },
         onPress: onPressHandler,
-        underlayColor: constants.colorPalette.rnSet3.lightBlue
+        underlayColor: underlayTheme
     }
 
     return (
@@ -40,18 +62,20 @@ const ButtonCustom = ({ children, title, onPressHandler, dimension = { heightY: 
                 ? {
                     ...styles.wrapperStyle,
                     ...styles.wrapperPressedStyle,
-                    ...wrapperIsPressed
+                    ...wrapperIsPressed,
+                    ...style
                 }
                 : {
                     ...styles.wrapperStyle,
-                    height: outterHeight
+                    height: outterHeight,
+                    ...style
                 }
         }>
             <TouchableHighlight {...touchableProps}>
                 {
                     children
                         ? children
-                        : <Text style={{...styles.textStyle, fontSize}}>{title}</Text>
+                        : <Text style={{ ...styles.textStyle, fontSize }}>{title}</Text>
                 }
             </TouchableHighlight>
         </View>
@@ -68,18 +92,15 @@ const styles = StyleSheet.create({
         paddingTop: 7
     },
     buttonStyle: {
-        backgroundColor: constants.colorPalette.rnSet3.lightBlue,
         paddingHorizontal: 16,
         paddingVertical: 10,
         borderRadius: 5,
-        borderColor: constants.colorPalette.rnSet3.darkBlue,
         borderWidth: 1,
         height: 60,
         justifyContent: 'center',
         alignItems: 'center'
     },
     buttonNormal: {
-        shadowColor: constants.colorPalette.rnSet3.darkBlue,
         shadowOffset: {
             width: 0,
             height: 7,
@@ -91,10 +112,28 @@ const styles = StyleSheet.create({
         color: constants.colorPalette.rnSet3.white,
         fontFamily: 'segoe-ui-bold',
         fontSize: 20
-    }
+    },
+    buttonBlue: {
+        borderColor: constants.colorPalette.rnSet3.darkBlue,
+        backgroundColor: constants.colorPalette.rnSet3.lightBlue,
+    },
+    buttonBlueShadow: {
+        shadowColor: constants.colorPalette.rnSet3.darkBlue,
+    },
+    buttonYellow: {
+        borderColor: constants.colorPalette.rnSet3.darkYellow,
+        backgroundColor: constants.colorPalette.rnSet3.yellow,
+    },
+    buttonYellowShadow: {
+        shadowColor: constants.colorPalette.rnSet3.darkYellow,
+    },
+    buttonRed: {
+        borderColor: constants.colorPalette.rnSet3.red,
+        backgroundColor: constants.colorPalette.rnSet3.lightRed,
+    },
+    buttonRedShadow: {
+        shadowColor: constants.colorPalette.rnSet3.red,
+    },
 });
-
-const buttonReleased = StyleSheet.compose(styles.buttonStyle, styles.buttonNormal);
-const wrapperPressed = StyleSheet.compose(styles.wrapperStyle, styles.wrapperPressedStyle);
 
 export default ButtonCustom;
