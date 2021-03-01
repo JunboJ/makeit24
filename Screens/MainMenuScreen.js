@@ -44,7 +44,7 @@ const MainMenuScreen = ({ navigation }) => {
 
     return (
         <View style={styles.mainMenu}>
-            <CardContainer items={numberList} />
+            {/* <CardContainer items={numberList} onPressHandler={() => {}}/> */}
             {/* <ScrollView style={styles.scrollView}>
                 {cards}
             </ScrollView> */}
