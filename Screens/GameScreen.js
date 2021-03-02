@@ -15,6 +15,9 @@ const GameScreen = ({ navigation }) => {
   const [operands, setOperands] = useState({ a: null, b: null });
   const [operator, setOperator] = useState({ type: null });
   const [inputStack, setInputStack] = useState([list]);
+
+  console.log("==========inputStack", inputStack);
+
   const numberOnPressHandler = (numObject) => {
     if (operands.a === numObject) {
       return setOperands({
@@ -56,13 +59,16 @@ const GameScreen = ({ navigation }) => {
   };
 
   const lastStepHandler = () => {
-    if (inputStack.length > 0) {
-      const copyStack = [...inputStack];
-      const lastStep = copyStack.pop();
-      const newStack = copyStack.slice(0, inputStack.length - 1);
-      setInputStack([...newStack]);
-      setList([...lastStep]);
+    const copyStack = [...inputStack];
+
+    if (inputStack.length > 1) {
+      copyStack.pop();
     }
+
+    let lastStep = copyStack.slice(-1);
+
+    setInputStack([...copyStack]);
+    setList([...lastStep[0]]);
   };
 
   const resetGameHandler = () => {
@@ -89,9 +95,7 @@ const GameScreen = ({ navigation }) => {
         return resetActive();
       }
       const newNumber = new ResultNumber(operands.a, operands.b, operator.type);
-      if (rest.length > 0) {
-          setInputStack([...inputStack, [newNumber, ...rest]]);
-      }
+      setInputStack([...inputStack, [newNumber, ...rest]]);
       setList([newNumber, ...rest]);
       resetActive();
     }
@@ -135,7 +139,7 @@ GameScreen.navigationOptions = (options) => {
       return (
         <ButtonCustom
           colorTheme="red"
-          size='small'
+          size="small"
           style={styles.headerLeftButton}
           onPressHandler={onPress}
         >
