@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Button, Text } from "react-native";
 import CardContainer from "../components/cardContainer/CardContainer";
 import constants from "../constants/constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ButtonCustom from "../components/buttonCustom/ButtonCustom";
 import { ResultNumber } from "../core/resultNumber/ResultNumber";
 import { Calculation } from "../core/calculation/Calculation";
+import { Core } from "../core/Core";
+
 import { FontAwesome } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 const operators = [{ type: "+" }, { type: "-" }, { type: "*" }, { type: "/" }];
 
@@ -15,8 +19,9 @@ const GameScreen = ({ navigation }) => {
   const [operands, setOperands] = useState({ a: null, b: null });
   const [operator, setOperator] = useState({ type: null });
   const [inputStack, setInputStack] = useState([list]);
+  const [resolutions, setResolutions] = useState([]);
 
-  console.log("==========inputStack", inputStack);
+  const times = '\u00d7'
 
   const numberOnPressHandler = (numObject) => {
     if (operands.a === numObject) {
@@ -81,6 +86,12 @@ const GameScreen = ({ navigation }) => {
     setOperator({ type: null });
   };
 
+  const getSolutionsHandler = () => {
+    Core.getSolutions(list);
+    const newSolutions = [...Core.solutions];
+    setResolutions(newSolutions);
+  };
+
   useEffect(() => {
     if (operands.a !== null && operands.b !== null && operator.type !== null) {
       const rest = list.filter((val) => {
@@ -115,17 +126,38 @@ const GameScreen = ({ navigation }) => {
         activeItem={operator}
         name="operator"
       />
-      <View>
+      <View style={styles.inGameControls}>
         <ButtonCustom
           colorTheme="blue"
-          size="small"
+          size="medium"
           onPressHandler={lastStepHandler}
         >
           <FontAwesome
             name="backward"
-            size={18}
-            color={constants.colorPalette.rnSet3.white}
+            size={24}
+            color={constants.colorPalette.rnSet3.darkBlue}
           />
+        </ButtonCustom>
+        <ButtonCustom
+          colorTheme="yellow"
+          size="medium"
+          onPressHandler={lastStepHandler}
+        >
+          <Entypo
+            name="check"
+            size={24}
+            color={constants.colorPalette.rnSet3.darkYellow}
+          />
+        </ButtonCustom>
+      </View>
+      <View style={styles.answerStyle}>
+        <ButtonCustom
+          onPressHandler={getSolutionsHandler}
+          fontSize={18}
+          size='small'
+          colorTheme="lightWarning"
+        >
+          <Ionicons name="bulb" size={18} color={constants.colorPalette.rnSet3.red} />
         </ButtonCustom>
       </View>
     </View>
@@ -138,15 +170,15 @@ GameScreen.navigationOptions = (options) => {
     headerLeft: ({ onPress }) => {
       return (
         <ButtonCustom
-          colorTheme="red"
+          colorTheme="lightWarning"
           size="small"
           style={styles.headerLeftButton}
           onPressHandler={onPress}
         >
           <MaterialCommunityIcons
             name="home"
-            size={20}
-            color={constants.colorPalette.rnSet3.white}
+            size={18}
+            color={constants.colorPalette.rnSet3.red}
           />
         </ButtonCustom>
       );
@@ -163,6 +195,15 @@ const styles = StyleSheet.create({
   },
   headerLeftButton: {
     marginLeft: 20,
+  },
+  inGameControls: {
+    marginTop: 50,
+    flexDirection: "row",
+  },
+  answerStyle: {
+    position: "absolute",
+    right: 50,
+    bottom: 50,
   },
 });
 

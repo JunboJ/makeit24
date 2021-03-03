@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     height: 75,
     width: "auto",
     minWidth: 55,
-    margin: 8,
+    margin: 10,
   },
   operatorCard: {
     borderColor: constants.colorPalette.rnSet3.lightRed,

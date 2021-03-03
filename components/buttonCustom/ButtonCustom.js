@@ -7,6 +7,8 @@ import {
 } from "react-native-gesture-handler";
 import constants from "../../constants/constants";
 
+const rnSet3 = constants.colorPalette.rnSet3;
+
 const ButtonCustom = ({
   children,
   title,
@@ -41,22 +43,27 @@ const ButtonCustom = ({
 
   let mainColor = styles.buttonBlue;
   let shadowColor = styles.buttonBlueShadow;
-  let underlayTheme = constants.colorPalette.rnSet3.lightBlue;
+  let underlayTheme = rnSet3.lightBlue;
   switch (colorTheme) {
     case "yellow":
       mainColor = styles.buttonYellow;
       shadowColor = styles.buttonYellowShadow;
-      underlayTheme = constants.colorPalette.rnSet3.yellow;
+      underlayTheme = rnSet3.yellow;
       break;
     case "red":
       mainColor = styles.buttonRed;
       shadowColor = styles.buttonRedShadow;
-      underlayTheme = constants.colorPalette.rnSet3.lightRed;
+      underlayTheme = rnSet3.lightRed;
+      break;
+    case "lightWarning":
+      mainColor = styles.buttonLightWarning;
+      shadowColor = styles.buttonLightWarningShadow;
+      underlayTheme = rnSet3.white;
       break;
     default:
       mainColor = styles.buttonBlue;
       shadowColor = styles.buttonBlueShadow;
-      underlayTheme = constants.colorPalette.rnSet3.lightBlue;
+      underlayTheme = rnSet3.lightBlue;
   }
 
   const touchableProps = {
@@ -112,6 +119,7 @@ const ButtonCustom = ({
 const styles = StyleSheet.create({
   wrapperStyle: {
     height: 68,
+    marginHorizontal: 10
   },
   wrapperPressedStyle: {
     paddingTop: 7,
@@ -134,31 +142,38 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
   },
   textStyle: {
-    color: constants.colorPalette.rnSet3.white,
+    color: rnSet3.white,
     fontFamily: "segoe-ui-bold",
     fontSize: 20,
   },
   buttonBlue: {
-    borderColor: constants.colorPalette.rnSet3.darkBlue,
-    backgroundColor: constants.colorPalette.rnSet3.lightBlue,
+    borderColor: rnSet3.darkBlue,
+    backgroundColor: rnSet3.lightBlue,
   },
   buttonBlueShadow: {
-    shadowColor: constants.colorPalette.rnSet3.darkBlue,
+    shadowColor: rnSet3.darkBlue,
   },
   buttonYellow: {
-    borderColor: constants.colorPalette.rnSet3.darkYellow,
-    backgroundColor: constants.colorPalette.rnSet3.yellow,
+    borderColor: rnSet3.darkYellow,
+    backgroundColor: rnSet3.yellow,
   },
   buttonYellowShadow: {
-    shadowColor: constants.colorPalette.rnSet3.darkYellow,
+    shadowColor: rnSet3.darkYellow,
   },
   buttonRed: {
-    borderColor: constants.colorPalette.rnSet3.red,
-    backgroundColor: constants.colorPalette.rnSet3.lightRed,
+    borderColor: rnSet3.red,
+    backgroundColor: rnSet3.lightRed,
   },
   buttonRedShadow: {
-    shadowColor: constants.colorPalette.rnSet3.red,
+    shadowColor: rnSet3.red,
   },
+  buttonLightWarning: {
+    borderColor: rnSet3.red,
+    backgroundColor: rnSet3.white
+  },
+  buttonLightWarningShadow: {
+    shadowColor: rnSet3.red
+  }
 });
 
 export default ButtonCustom;

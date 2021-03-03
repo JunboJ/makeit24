@@ -3,8 +3,8 @@ import { View, StyleSheet } from "react-native";
 import ButtonCustom from "../components/buttonCustom/ButtonCustom";
 import RecursiveCard from "../components/recursiveCard/recursiveCard";
 import constants from "../constants/constants";
-import { Core } from "../core/Core";
 import { NumberList } from "../core/numberList/NumberList";
+
 import { FontAwesome5 } from "@expo/vector-icons";
 
 const initialList = new NumberList();
@@ -15,7 +15,6 @@ const MainMenuScreen = ({ navigation }) => {
     list.listGenerator(constants.numberTypes.INITIAL)
   );
   const [isInitStatus, setIsInitStatus] = useState(true);
-  const [resolutions, setResolutions] = useState([]);
   const startGameHandler = () => {
     navigation.navigate({ routeName: "Game", params: { numberList } });
   };
@@ -23,29 +22,22 @@ const MainMenuScreen = ({ navigation }) => {
   const generateHandler = () => {
     const newList = list.listGenerator();
     setIsInitStatus(false);
-    setResolutions([]);
     setNumberList(newList);
   };
 
-  const getSolutionsHandler = () => {
-    Core.getSolutions(numberList);
-    const newSolutions = [...Core.solutions];
-    setResolutions(newSolutions);
-  };
+  // let cards = null;
 
-  let cards = null;
-
-  if (resolutions.length) {
-    cards = resolutions.map((resolution, index) => {
-      return (
-        <RecursiveCard
-          style={styles.recursiveCard}
-          key={`resolution-${index}`}
-          object={resolution}
-        />
-      );
-    });
-  }
+  // if (resolutions.length) {
+  //   cards = resolutions.map((resolution, index) => {
+  //     return (
+  //       <RecursiveCard
+  //         style={styles.recursiveCard}
+  //         key={`resolution-${index}`}
+  //         object={resolution}
+  //       />
+  //     );
+  //   });
+  // }
 
   return (
     <View style={styles.mainMenu}>
@@ -68,14 +60,6 @@ const MainMenuScreen = ({ navigation }) => {
             color={constants.colorPalette.rnSet3.white}
           />
         </ButtonCustom>
-      </View>
-      <View style={styles.answerStyle}>
-        <ButtonCustom
-          title="ANS"
-          onPressHandler={getSolutionsHandler}
-          fontSize={16}
-          colorTheme="yellow"
-        />
       </View>
     </View>
   );
@@ -104,11 +88,6 @@ const styles = StyleSheet.create({
   recursiveCard: {
     width: "100%",
     flexDirection: "row",
-  },
-  answerStyle: {
-    position: "absolute",
-    right: 50,
-    bottom: 50,
   },
   controlSet: {
     flexDirection: "row",
