@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import Card from "../card/Card";
 import constants from "../../constants/constants";
 import RecursiveCard from "../recursiveCard/recursiveCard";
+import styles from "./styles/styles";
 
 const CardContainer = ({ items, onPressHandler, activeItem, name }) => {
   return (
@@ -23,11 +24,5 @@ const CardContainer = ({ items, onPressHandler, activeItem, name }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  cardWrapper: {
-    flexDirection: "row",
-  },
-});
 
 export default CardContainer;

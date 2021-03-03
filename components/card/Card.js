@@ -2,9 +2,11 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import constants from '../../constants/constants';
 import CardText from '../cardText/CardText';
+import styles from './styles/styles';
 
 const Card = ({ type, children, style }) => {
     let content;
+
     switch (type) {
         case constants.numberTypes.INITIAL:
             content = '?';
@@ -25,27 +27,5 @@ const Card = ({ type, children, style }) => {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    cardWrapper: {
-        width: '100%',
-        height: '100%',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        backgroundColor: constants.colorPalette.rnSet3.white,
-        borderWidth: 3,
-        borderColor: constants.colorPalette.rnBlue1,
-        borderRadius: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: 5,
-        paddingHorizontal: 14,
-    }
-});
 
 export default Card;

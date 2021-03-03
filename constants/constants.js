@@ -20,6 +20,7 @@ const constants = {
         rnBlue4: '#a8dadc',
         rnBlue5: '#457b9d',
         rnBlue6: '#1d3557',
+        rnPureWhite: '#ffffff',
         rnSet1: {
             white: '#f4f1de',
             red: '#e07a5f',
