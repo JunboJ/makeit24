@@ -1,9 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { Text, View } from "react-native";
-import {
-  TouchableHighlight
-} from "react-native-gesture-handler";
+import { TouchableHighlight } from "react-native-gesture-handler";
+import { useEffect } from "react/cjs/react.production.min";
 import btnStyle from "./styles/styles";
 
 const ButtonCustom = ({
@@ -14,6 +13,7 @@ const ButtonCustom = ({
   colorTheme = "blue",
   style,
   size = "medium",
+  disabled = false,
 }) => {
   const [isPress, setIsPress] = useState(false);
   const { styles, underlayTheme } = btnStyle(colorTheme, size);
@@ -24,35 +24,64 @@ const ButtonCustom = ({
     onShowUnderlay: () => setIsPress(true),
     style: isPress
       ? {
-        ...styles.buttonPressed
-      }
+          ...styles.buttonPressed,
+        }
       : {
-        ...styles.buttonNotPressed
-      },
+          ...styles.buttonNotPressed,
+        },
     onPress: onPressHandler,
-    underlayColor: underlayTheme
+    underlayColor: underlayTheme,
   };
+
+  const disabledProps = {
+    activeOpacity: 1,
+    style: {
+      ...styles.buttonDisabled,
+    },
+  };
+
+  if (disabled) {
+    if (isPress) {
+      setIsPress(false);
+    }
+    return (
+      <View
+        style={{
+          ...styles.wrapperNotPressed,
+          ...style,
+        }}
+      >
+        <TouchableHighlight {...disabledProps}>
+          {children ? (
+            children
+          ) : (
+            <Text style={{ ...styles.textStyle, fontSize }}>{title}</Text>
+          )}
+        </TouchableHighlight>
+      </View>
+    );
+  }
 
   return (
     <View
       style={
         isPress
           ? {
-            ...styles.wrapperPressed,
-            ...style,
-          }
+              ...styles.wrapperPressed,
+              ...style,
+            }
           : {
-            ...styles.wrapperNotPressed,
-            ...style,
-          }
+              ...styles.wrapperNotPressed,
+              ...style,
+            }
       }
     >
       <TouchableHighlight {...touchableProps}>
         {children ? (
           children
         ) : (
-            <Text style={{ ...styles.textStyle, fontSize }}>{title}</Text>
-          )}
+          <Text style={{ ...styles.textStyle, fontSize }}>{title}</Text>
+        )}
       </TouchableHighlight>
     </View>
   );

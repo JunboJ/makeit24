@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import ButtonCustom from "../components/buttonCustom/ButtonCustom";
 import RecursiveCard from "../components/recursiveCard/recursiveCard";
 import constants from "../constants/constants";
 import { NumberList } from "../core/numberList/NumberList";
 
 import { FontAwesome5 } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const initialList = new NumberList();
 
@@ -41,10 +42,6 @@ const MainMenuScreen = ({ navigation }) => {
 
   return (
     <View style={styles.mainMenu}>
-      {/* <CardContainer items={numberList} onPressHandler={() => {}}/> */}
-      {/* <ScrollView style={styles.scrollView}>
-                {cards}
-            </ScrollView> */}
       <View style={styles.controlSet}>
         <ButtonCustom onPressHandler={startGameHandler}>
           <FontAwesome5
@@ -63,6 +60,25 @@ const MainMenuScreen = ({ navigation }) => {
       </View>
     </View>
   );
+};
+
+MainMenuScreen.navigationOptions = ({ navigation }) => {
+  return {
+    title: "",
+    headerRight: () => (
+      <ButtonCustom
+        colorTheme="lightWarning"
+        size="small"
+        onPressHandler={navigation.toggleDrawer}
+      >
+        <MaterialIcons
+          name="menu-open"
+          size={24}
+          color={constants.colorPalette.rnSet3.red}
+        />
+      </ButtonCustom>
+    ),
+  };
 };
 
 const styles = StyleSheet.create({
