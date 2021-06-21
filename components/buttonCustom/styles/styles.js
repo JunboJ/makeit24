@@ -57,18 +57,18 @@ const btnStyle = (colorTheme, size) => {
   const getDimension = (size) => {
     switch (size) {
       case "small":
-        return { heightY: 40, heightZ: 4 };
+        return { heightY: 40, heightZ: 4, font: 18 };
       case "medium":
-        return { heightY: 50, heightZ: 5 };
+        return { heightY: 50, heightZ: 5, font: 20 };
       case "large":
-        return { heightY: 60, heightZ: 6 };
+        return { heightY: 100, heightZ: 10, font: 22 };
       default:
-        return { heightY: 50, heightZ: 5 };
+        return { heightY: 50, heightZ: 5, font: 20 };
     }
   };
 
   const { mainColor, shadowColor, underlayTheme } = buttonThemes(colorTheme);
-  const { heightY, heightZ } = getDimension(size);
+  const { heightY, heightZ, font } = getDimension(size);
 
   const wrapperNotPressed = {
     height: heightY + heightZ + 1,
@@ -86,7 +86,7 @@ const btnStyle = (colorTheme, size) => {
     paddingVertical: 10,
     borderRadius: 5,
     borderWidth: 1,
-    height: 60,
+    minWidth: 50,
     justifyContent: "center",
     alignItems: "center",
   };
@@ -103,7 +103,7 @@ const btnStyle = (colorTheme, size) => {
   const buttonPressed = {
     ...buttonStyle,
     ...mainColor,
-    height: heightY,
+    minHeight: heightY,
   };
 
   const buttonNotPressed = {
@@ -111,7 +111,7 @@ const btnStyle = (colorTheme, size) => {
     ...buttonNormal,
     ...mainColor,
     ...shadowColor,
-    height: heightY,
+    minHeight: heightY,
     shadowOffset: { width: 0, height: heightZ },
   };
 
@@ -121,7 +121,7 @@ const btnStyle = (colorTheme, size) => {
     borderColor: constants.colorPalette.rnDisabled.darkGray,
     backgroundColor: constants.colorPalette.rnDisabled.lightGray,
     shadowColor: constants.colorPalette.rnDisabled.darkGray,
-    height: heightY,
+    minHeight: heightY,
     shadowOffset: { width: 0, height: heightZ },
   };
 
@@ -130,7 +130,7 @@ const btnStyle = (colorTheme, size) => {
       textStyle: {
         color: rnSet3.white,
         fontFamily: "segoe-ui-bold",
-        fontSize: 20,
+        fontSize: font,
       },
       buttonNotPressed: buttonNotPressed,
       buttonPressed: buttonPressed,

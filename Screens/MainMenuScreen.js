@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import ButtonCustom from "../components/buttonCustom/ButtonCustom";
 import RecursiveCard from "../components/recursiveCard/recursiveCard";
@@ -7,6 +7,7 @@ import { NumberList } from "../core/numberList/NumberList";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import Ball from "../components/animation/Animated";
 
 const initialList = new NumberList();
 
@@ -26,59 +27,23 @@ const MainMenuScreen = ({ navigation }) => {
     setNumberList(newList);
   };
 
-  // let cards = null;
-
-  // if (resolutions.length) {
-  //   cards = resolutions.map((resolution, index) => {
-  //     return (
-  //       <RecursiveCard
-  //         style={styles.recursiveCard}
-  //         key={`resolution-${index}`}
-  //         object={resolution}
-  //       />
-  //     );
-  //   });
-  // }
-
   return (
     <View style={styles.mainMenu}>
       <View style={styles.controlSet}>
-        <ButtonCustom onPressHandler={startGameHandler}>
+        <ButtonCustom
+          onPressHandler={startGameHandler}
+          size="large"
+          style={{ width: 200, borderRadius: 10 }}
+        >
           <FontAwesome5
             name="play"
-            size={24}
-            color={constants.colorPalette.rnSet3.white}
-          />
-        </ButtonCustom>
-        <ButtonCustom onPressHandler={generateHandler}>
-          <FontAwesome5
-            name="dice"
-            size={20}
+            size={40}
             color={constants.colorPalette.rnSet3.white}
           />
         </ButtonCustom>
       </View>
     </View>
   );
-};
-
-MainMenuScreen.navigationOptions = ({ navigation }) => {
-  return {
-    title: "",
-    headerRight: () => (
-      <ButtonCustom
-        colorTheme="lightWarning"
-        size="small"
-        onPressHandler={navigation.toggleDrawer}
-      >
-        <MaterialIcons
-          name="menu-open"
-          size={24}
-          color={constants.colorPalette.rnSet3.red}
-        />
-      </ButtonCustom>
-    ),
-  };
 };
 
 const styles = StyleSheet.create({

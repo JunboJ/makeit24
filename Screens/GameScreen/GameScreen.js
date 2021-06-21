@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Button, Text } from "react-native";
 import CardContainer from "../../components/cardContainer/CardContainer";
 import constants from "../../constants/constants";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ButtonCustom from "../../components/buttonCustom/ButtonCustom";
 import { ResultNumber } from "../../core/resultNumber/ResultNumber";
 import { Calculation } from "../../core/calculation/Calculation";
@@ -15,11 +14,12 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import StrikeCounter from "../../components/strikeCounter/strikeCounter";
 import { NumberList } from "../../core/numberList/NumberList";
+import { operatorRender } from "../../helpers/helpers";
 
 const operators = [{ type: "+" }, { type: "-" }, { type: "*" }, { type: "/" }];
 const initialList = new NumberList();
 
-const GameScreen = ({ navigation }) => {
+const GameScreen = () => {
   const [listObj, setListObj] = useState(initialList);
   const [list, setList] = useState(
     listObj.listGenerator(constants.numberTypes.INITIAL)
@@ -168,6 +168,18 @@ const GameScreen = ({ navigation }) => {
     }
   }, [isInitState]);
 
+  const operatorControls = operators.map((item, index) => {
+    const isDisabled = operands.a === null ? true : false;
+    return (
+      <ButtonCustom
+        key={`operator-${index}`}
+        title={operatorRender(item.type)}
+        onPressHandler={() => operatorOnPressHandler(item)}
+        disabled={isDisabled}
+      />
+    );
+  });
+
   return (
     <View style={styles.gameScreen}>
       <StrikeCounter strikes={strikes} />
@@ -178,34 +190,29 @@ const GameScreen = ({ navigation }) => {
           activeItem={operands}
           name="operands"
         />
-        <CardContainer
-          onPressHandler={operatorOnPressHandler}
-          items={operators}
-          activeItem={operator}
-          name="operator"
-        />
+        <View style={styles.operatorControlWrapper}>{operatorControls}</View>
       </View>
       <View style={styles.inGameControls}>
         <ButtonCustom
           colorTheme="blue"
-          size="medium"
+          size="small"
           onPressHandler={prevStepHandler}
         >
           <FontAwesome
             name="backward"
-            size={24}
+            size={18}
             color={constants.colorPalette.rnSet3.darkBlue}
           />
         </ButtonCustom>
         <ButtonCustom
           colorTheme="yellow"
-          size="medium"
+          size="small"
           onPressHandler={submitHandler}
           disabled={stepOut ? false : true}
         >
           <Entypo
             name="check"
-            size={24}
+            size={18}
             color={
               stepOut
                 ? constants.colorPalette.rnSet3.darkYellow
@@ -224,7 +231,6 @@ const GameScreen = ({ navigation }) => {
         </ButtonCustom>
         <ButtonCustom
           onPressHandler={getSolutionsHandler}
-          fontSize={18}
           size="small"
           colorTheme="lightWarning"
         >
@@ -237,28 +243,6 @@ const GameScreen = ({ navigation }) => {
       </View>
     </View>
   );
-};
-
-GameScreen.navigationOptions = (options) => {
-  return {
-    title: "",
-    headerLeft: ({ onPress }) => {
-      return (
-        <ButtonCustom
-          colorTheme="lightWarning"
-          size="small"
-          style={styles.headerLeftButton}
-          onPressHandler={onPress}
-        >
-          <MaterialCommunityIcons
-            name="home"
-            size={18}
-            color={constants.colorPalette.rnSet3.red}
-          />
-        </ButtonCustom>
-      );
-    },
-  };
 };
 
 const styles = StyleSheet.create({
@@ -276,7 +260,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   inGameControls: {
-    marginTop: 50,
+    marginTop: 20,
     flexDirection: "row",
   },
   answerStyle: {
@@ -284,6 +268,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     right: 50,
     bottom: 50,
+  },
+  operatorControlWrapper: {
+    flexDirection: "row",
+    marginTop: 50,
   },
 });
 

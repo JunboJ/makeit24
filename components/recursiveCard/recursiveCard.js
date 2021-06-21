@@ -3,10 +3,18 @@ import { StyleSheet, Text } from "react-native";
 import Card from "../card/Card";
 import constants from "../../constants/constants";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { operatorRender } from "../../helpers/helpers";
 
-const RecursiveCard = ({ object, onPressHandler, active }) => {
-  const recursiveOperandRender = ({ operands, operator }) => {
-    const showReverse = false;
+const RecursiveCard = ({
+  object,
+  onPressHandler,
+  active,
+  showResult = true,
+}) => {
+  const showReverse = false;
+
+  const recursiveOperandRender = ({ operands, operator, result }) => {
+    console.log("result", result);
     let content = [];
     if (!showReverse && operator.charAt(0) === "r") {
       operands = operands.reverse();
@@ -14,51 +22,40 @@ const RecursiveCard = ({ object, onPressHandler, active }) => {
     }
 
     let renderOperator = operatorRender(operator);
-
-    operands.forEach((operand, index) => {
-      const operandType = operand.type;
-      if (operandType === constants.numberTypes.RESULT) {
-        content.push(
-          <Text key={`originNumber-${Math.random(3) * 1000}`}>
-            {index === 1 ? <Text>{renderOperator}</Text> : null}
-            <Text>{`(`}</Text>
-            <Text>{recursiveOperandRender(operand.getExpression())}</Text>
-            <Text>{`)`}</Text>
-          </Text>
-        );
-      }
-      if (operandType === constants.numberTypes.ORIGIN) {
-        content.push(
-          <Text key={`originNumber-${Math.random(3) * 1000}`}>{`${
-            index === 1 ? renderOperator : ""
-          }${operand.number}`}</Text>
-        );
-      }
-    });
+    showResult
+      ? content.push(result)
+      : operands.forEach((operand, index) => {
+          const operandType = operand.type;
+          if (operandType === constants.numberTypes.RESULT) {
+            content.push(
+              <Text key={`originNumber-${Math.random(3) * 1000}`}>
+                {index === 1 ? <Text>{renderOperator}</Text> : null}
+                <Text>{`(`}</Text>
+                <Text>{recursiveOperandRender(operand.getExpression())}</Text>
+                <Text>{`)`}</Text>
+              </Text>
+            );
+          }
+          if (operandType === constants.numberTypes.ORIGIN) {
+            content.push(
+              <Text key={`originNumber-${Math.random(3) * 1000}`}>{`${
+                index === 1 ? renderOperator : ""
+              }${operand.number}`}</Text>
+            );
+          }
+        });
     return content;
-  };
-
-  const operatorRender = (operator) => {
-    switch (operator) {
-      case constants.operatorTypes.DIV:
-      case constants.operatorTypes.DIVREV:
-        return "\u00F7";
-      case constants.operatorTypes.MUL:
-        return "\u00D7";
-      case constants.operatorTypes.SUB:
-      case constants.operatorTypes.SUBREV:
-        return "\u2212";
-      case constants.operatorTypes.ADD:
-        return "\u002B";
-    }
   };
 
   const recursiveRender = (item) => {
     const itemType = item.type;
+
+    // render a single number
     if (itemType === constants.numberTypes.ORIGIN) {
       return <Card type={itemType}>{item.number}</Card>;
     }
 
+    // render a single operator
     if (Object.values(constants.operatorTypes).includes(itemType)) {
       return (
         <Card type={"operator"} style={styles.operatorCard}>
@@ -67,18 +64,19 @@ const RecursiveCard = ({ object, onPressHandler, active }) => {
       );
     }
 
+    // render a math expression
     const expression = item.getExpression();
     if (itemType === constants.numberTypes.FINAL) {
       return (
         <Card type={constants.numberTypes.FINAL}>
-          {recursiveOperandRender(expression)}
+          {recursiveOperandRender({ ...expression, result: item.number })}
         </Card>
       );
     }
     if (itemType === constants.numberTypes.RESULT) {
       return (
         <Card type={itemType} key={`resultNumber-${Math.random()}`}>
-          {recursiveOperandRender(expression)}
+          {recursiveOperandRender({ ...expression, result: item.number })}
         </Card>
       );
     }

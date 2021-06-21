@@ -1,18 +1,18 @@
-import React from "react";
-import { useState } from "react";
-import { Text, View } from "react-native";
-import { TouchableHighlight } from "react-native-gesture-handler";
-import { useEffect } from "react/cjs/react.production.min";
-import btnStyle from "./styles/styles";
+import React from 'react';
+import { useState } from 'react';
+import { Text, View } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { useEffect } from 'react/cjs/react.production.min';
+import btnStyle from './styles/styles';
 
 const ButtonCustom = ({
   children,
   title,
+  textColor = 'white',
   onPressHandler,
-  fontSize = 20,
-  colorTheme = "blue",
+  colorTheme = 'blue',
   style,
-  size = "medium",
+  size = 'medium',
   disabled = false,
 }) => {
   const [isPress, setIsPress] = useState(false);
@@ -25,9 +25,11 @@ const ButtonCustom = ({
     style: isPress
       ? {
           ...styles.buttonPressed,
+          ...style,
         }
       : {
           ...styles.buttonNotPressed,
+          ...style,
         },
     onPress: onPressHandler,
     underlayColor: underlayTheme,
@@ -44,6 +46,7 @@ const ButtonCustom = ({
     if (isPress) {
       setIsPress(false);
     }
+
     return (
       <View
         style={{
@@ -55,7 +58,7 @@ const ButtonCustom = ({
           {children ? (
             children
           ) : (
-            <Text style={{ ...styles.textStyle, fontSize }}>{title}</Text>
+            <Text style={{ ...styles.textStyle }}>{title}</Text>
           )}
         </TouchableHighlight>
       </View>
@@ -80,7 +83,7 @@ const ButtonCustom = ({
         {children ? (
           children
         ) : (
-          <Text style={{ ...styles.textStyle, fontSize }}>{title}</Text>
+          <Text style={{ ...styles.textStyle, color: textColor }}>{title}</Text>
         )}
       </TouchableHighlight>
     </View>
