@@ -5,7 +5,6 @@ import constants from '../../constants/constants';
 import ButtonCustom from '../../components/buttonCustom/ButtonCustom';
 
 const HomeHeader = ({ navigation }) => {
-	console.log('navigation', navigation);
 	const onLoginPressedHandler = useCallback(() => {
 		navigation.navigate({ routeName: 'Login' });
 	}, []);

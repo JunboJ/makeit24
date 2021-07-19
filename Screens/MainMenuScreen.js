@@ -9,22 +9,9 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import Ball from "../components/animation/Animated";
 
-const initialList = new NumberList();
-
 const MainMenuScreen = ({ navigation }) => {
-  const [list, setList] = useState(initialList);
-  const [numberList, setNumberList] = useState(
-    list.listGenerator(constants.numberTypes.INITIAL)
-  );
-  const [isInitStatus, setIsInitStatus] = useState(true);
   const startGameHandler = () => {
-    navigation.navigate({ routeName: "Game", params: { numberList } });
-  };
-
-  const generateHandler = () => {
-    const newList = list.listGenerator();
-    setIsInitStatus(false);
-    setNumberList(newList);
+    navigation.navigate({ routeName: "Game" });
   };
 
   return (

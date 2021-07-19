@@ -17,12 +17,11 @@ import { NumberList } from "../../core/numberList/NumberList";
 import { operatorRender } from "../../helpers/helpers";
 
 const operators = [{ type: "+" }, { type: "-" }, { type: "*" }, { type: "/" }];
-const initialList = new NumberList();
+const listObj = new NumberList();
 
 const GameScreen = () => {
-  const [listObj, setListObj] = useState(initialList);
   const [list, setList] = useState(
-    listObj.listGenerator(constants.numberTypes.INITIAL)
+    listObj.generateList([4, 10, 1, 1])
   );
   const [isInitState, setIsInitState] = useState(true);
   const [operands, setOperands] = useState({ a: null, b: null });
@@ -90,8 +89,7 @@ const GameScreen = () => {
   };
 
   const generateHandler = () => {
-    const newList = listObj.listGenerator();
-    // setIsInitStatus(false);
+    const newList = listObj.generateRandomList();
     setList(newList);
     setInputStack([newList]);
   };
@@ -117,8 +115,13 @@ const GameScreen = () => {
   };
 
   const getSolutionsHandler = () => {
-    Core.getSolutions(list);
-    const newSolutions = [...Core.solutions];
+    const dp = Core.getSolutions(list, false);
+    const ndp = Core.getSolutions(list);
+
+    console.log('dp', dp.length);
+    console.log('ndp', ndp.length);
+
+    const newSolutions = [...ndp];
     setResolutions(newSolutions);
   };
 
@@ -163,10 +166,16 @@ const GameScreen = () => {
   // auto start a new game
   useEffect(() => {
     if (isInitState) {
-      generateHandler();
       setIsInitState(false);
     }
   }, [isInitState]);
+
+  useEffect(() => {
+    if (resolutions.length) {
+      console.log('log the resolutions', resolutions);
+      console.log('log the resolutions length', resolutions.length);
+    }
+  }, [resolutions])
 
   const operatorControls = operators.map((item, index) => {
     const isDisabled = operands.a === null ? true : false;

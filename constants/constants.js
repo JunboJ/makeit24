@@ -13,6 +13,12 @@ const constants = {
     DIV: "/",
     DIVREV: "r/",
   },
+  mathOperatorTypes: {
+    ADD: "+",
+    SUB: "-",
+    MUL: "*",
+    DIV: "/",
+  },
   colorPalette: {
     rnBlue1: "#8ecae6",
     rnBlue2: "#219ebc",
